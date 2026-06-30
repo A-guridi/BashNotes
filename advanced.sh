@@ -126,6 +126,9 @@ sed -r 's/([a-z]+) \1/\1/'
 #7 ) Swap numbers around (e.g. credit cards numbers)
 sed -r 's/(\d{4}) (\d{4}) (\d{4}) (\d{4})/\4 \3 \2 \1/'
 
+#8 ) Remove blank lines after deleting words (with an A) with sed
+sed -r 's/\w*[a]\w*//gI' | grep .
+
 # 5) Print line numbers with matching lines:
 sed -n '/pattern/{=;p;}' file.txt
 

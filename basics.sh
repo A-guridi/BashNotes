@@ -15,6 +15,35 @@ declare -A associative_array=(
   [key2]=value2
 )
 
+# READ
+# each invocation reads line by line of the input
+read -a array   # reads an array split by spaces
+
+# Read each line from a file into an array
+mapfile -t lines < file.txt
+echo "${lines[@]}"
+
+# Read each line from stdin into an array
+printf 'one\ntwo\nthree\n' | mapfile -t input_array
+echo "${input_array[@]}"
+
+# Read a single line into an array of words
+read -r -a words < file.txt
+echo "${words[@]}"
+
+# Build an array manually from a file using a loop
+declare -a arr=()
+while IFS= read -r line; do
+    arr+=("$line")
+done < file.txt
+echo "${arr[@]}"
+
+## Change words in array
+
+declare -a Unix=('Debian' 'Red hat' 'Ubuntu' 'Suse' 'Fedora');
+declare -a patter=( ${Unix[@]/Red*/Redhat Sucks} )
+echo ${patter[@]}
+
 ## Read files
 while read -r line; do
     # echo "$line"
@@ -96,4 +125,29 @@ echo "one two" | xargs -n1 -I{} sh -c 'printf "item=%s\n" "$1"' _ {}
 # Combine with find and other utilities.
 find . -type f -name '*.sh' -print0 | xargs -n1 basename
 find . -maxdepth 1 -type f | xargs -n1 ls -l
+
+## String matches in [[ ... ]] (bash)
+# Basic comparisons
+[[ "$str" == "foo" ]]      # equal
+[[ "$str" != "foo" ]]      # not equal
+[[ "$str" < "$other" ]]   # lexicographically smaller
+[[ "$str" > "$other" ]]   # lexicographically greater
+[[ -z "$str" ]]            # empty string
+[[ -n "$str" ]]            # non-empty string
+
+# Pattern matching
+[[ "$str" == foo* ]]       # starts with foo
+[[ "$str" == *.txt ]]      # ends with .txt
+[[ "$str" == [A-Z]* ]]     # starts with uppercase letter
+[[ "$str" != foo* ]]       # does not start with foo
+
+# Regex matching
+[[ "$str" =~ ^[A-Z]{3}[0-9]+$ ]]   # regex match
+
+# Examples
+str="hello"
+[[ "$str" == hello ]] && echo "match"
+[[ "$str" != world ]] && echo "not world"
+[[ "$str" == h* ]] && echo "starts with h"
+[[ "$str" =~ ^h ]] && echo "matches regex"
 

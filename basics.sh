@@ -14,10 +14,13 @@ declare -A associative_array=(
   [key1]=value1
   [key2]=value2
 )
+## sort an array
+IFS=$'\n' sorted=($(sort <<<"${array[*]}")); unset IFS
 
 # READ
 # each invocation reads line by line of the input
 read -a array   # reads an array split by spaces
+IFS=', ' read -ra A <<< "$1"        # read array from input separated by ", "
 
 # Read each line from a file into an array
 mapfile -t lines < file.txt

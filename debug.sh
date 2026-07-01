@@ -15,3 +15,9 @@ shellcheck script.sh        # If available, good for following best practices
 set -v          # Reads commans as they are read (instead of executed) to get syntax errors
 set -u          # Sets undefined variables as errors
 set -e          # Exit on command failure 
+
+set -Eeuo pipefail
+# -E  → ERR trap inherited by functions and subshells
+# -e  → exit immediately if any command fails
+# -u  → treat unset variables as errors (no silent $UNDEFINED)
+# -o pipefail → catch failures inside pipes (not just last command)

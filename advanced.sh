@@ -165,4 +165,15 @@ sed "1,$start d" "$1"
 
 
 
+# TRAP
+## command executed on error, useful for backups and deleting tempfiles
+rollback() {
+  echo "[ROLLBACK] Deployment failed. Restoring backup..."
+  rm -rf "$APP_DIR"
+  cp -r "$BACKUP_DIR" "$APP_DIR"
+  systemctl restart myapp
+  echo "[ROLLBACK] Complete. Service restored."
+  exit 1
+}
 
+trap rollback ERR

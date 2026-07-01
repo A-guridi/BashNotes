@@ -10,6 +10,14 @@ ping hostname.com
 ping -c 4 google.com                    # send 4 packets and stop
 ping -c 10 -i 0.5 8.8.8.8              # rapid ping, 10 packets, 0.5s interval
 ping -c 5 -W 2000 unreachable.host     # timeout after 2 seconds per packet
+RETRIES=0
+while ! ping -c1 8.8.8.8 &>/dev/null; do
+  echo "Network down, waiting... (attempt $RETRIES)"
+  ((RETRIES++))
+  sleep 5
+  [[ $RETRIES -ge 10 ]] && { echo "Giving up."; exit 1; }
+done
+echo "Network restored."
 
 
 # NSLOOKUP / DIG

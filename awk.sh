@@ -73,7 +73,7 @@ sprintf(format, ...)        : format string
 tolower(string)             : convert to lowercase
 toupper(string)             : convert to uppercase
 match(string, regex)        : test if regex matches (returns position)
-sub(regex, replacement, target)      : replace first match
+sub(regex, replacement, target)      : replace first match (remember regex with /pattern/)
 gsub(regex, replacement, target)     : replace all matches
 
 # Examples
@@ -225,6 +225,9 @@ function factorial(n) {
 }
 BEGIN { print factorial(5) }
 '
+
+# You can use also bash functions by using
+aws '{system("mv -R " $1 " " $2)}' file.txt
 
 
 # PRACTICAL EXAMPLES AND ONE-LINERS
